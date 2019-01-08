@@ -83,17 +83,16 @@ namespace CurrencyChange.Controllers
 
         // POST: _api/v1/Currencies
         [HttpPost]
-        public async Task<IActionResult> PostCurrency([FromBody] Currency currency)
+        public IActionResult PostCurrency([FromBody] Currency currency)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Currency.Add(currency);
-            await _context.SaveChangesAsync();
+            var getCurrent = _context.Currency.SingleOrDefault(c => c.Id == currency.Id);
 
-            return CreatedAtAction("GetCurrency", new { id = currency.Id }, currency);
+            return new JsonResult(getCurrent.Ratio * currency.Ratio);
         }
 
         // DELETE: _api/v1/Currencies/5
