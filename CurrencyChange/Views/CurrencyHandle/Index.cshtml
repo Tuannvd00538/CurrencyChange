@@ -1,0 +1,32 @@
+﻿@model IEnumerable<CurrencyChange.Models.Currency>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="form-group">
+    <div class="form-group">
+        <label>Amount:</label>
+        <input type="number" id="amount" name="amout" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Select currency:</label>
+        <select class="form-control" id="value">
+            @foreach (var item in Model)
+            {
+                <option value="@Html.DisplayFor(modelItem => item.Ratio)">@Html.DisplayFor(modelItem => item.Id)</option>
+            }
+        </select>
+    </div>
+    <button class="btn btn-success">Change</button>
+    <hr />
+    <div>Result: <span id="result"></span></div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('button').click(function () {
+                $('#result').text = ($('#amount').val() * $('#value').val());
+            });
+        });
+    </script>
+}
